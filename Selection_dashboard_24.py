@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+subprocess.run(["pip", "install", "openpyxl"])
 import openpyxl
 
 file_path = 'CoachSailorReviewFormSelection_Cognito export.xlsx'
