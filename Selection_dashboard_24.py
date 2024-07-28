@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-#import openpyxl
+import openpyxl
 
 file_path = 'CoachSailorReviewFormSelection_Cognito export.xlsx'
 excel_data = pd.read_excel(file_path, engine='openpyxl')
