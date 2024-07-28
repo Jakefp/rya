@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import openpyxl
 
-file_path = 'old_examples/CoachSailorReviewFormSelection_Cognito export.xlsx'
+file_path = 'CoachSailorReviewFormSelection_Cognito export.xlsx'
 excel_data = pd.read_excel(file_path, engine='openpyxl')
 
 # Title of the app
