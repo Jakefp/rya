@@ -2,6 +2,8 @@ import hmac
 import streamlit as st
 import pandas as pd
 import openpyxl
+import plotly.graph_objects as go
+from functions import *
 
 def check_password():
     """Returns `True` if the user had the correct password."""
