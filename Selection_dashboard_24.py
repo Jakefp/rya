@@ -1,64 +1,30 @@
-import hmac
 import streamlit as st
 import pandas as pd
 import openpyxl
 import plotly.graph_objects as go
 from functions import *
 
-def check_password():
-    """Returns `True` if the user had the correct password."""
-
-    def password_entered():
-        """Checks whether a password entered by the user is correct."""
-        if hmac.compare_digest(st.session_state["password"], st.secrets["password"]):
-            st.session_state["password_correct"] = True
-            del st.session_state["password"]  # Don't store the password.
-        else:
-            st.session_state["password_correct"] = False
-
-    # Return True if the password is validated.
-    if st.session_state.get("password_correct", False):
-        return True
-
-    # Show input for password.
-    st.text_input(
-        "Password", type="password", on_change=password_entered, key="password"
-    )
-    if "password_correct" in st.session_state:
-        st.error("😕 Password incorrect")
-    return False
-
-
-if not check_password():
-    st.stop()  # Do not continue if check_password is not True.
-
 ##### Main
 
-file_path = 'CoachSailorReviewFormSelection_Cognito export.xlsx'
-excel_data = pd.read_excel(file_path, engine='openpyxl')
+st.set_page_config(layout="wide")
+####################################
+Classes = [
+    'ILCA 7',
+    'ILCA 6 Male',
+    'ILCA 6 Female',
+    'IQ Foil Male'
+    # Add other classes and sheet names here
+]
 
-# Title of the app
 st.title('Youth 2024 Selections')
 
-# Dropdown to select class
-Classes = excel_data['Class being reviewed'].unique().tolist()
-selected_class = st.sidebar.selectbox("Select Class", Classes)
-#Function for getting the name and class of sailors
-Athlete_class_specific = excel_data[excel_data['Class being reviewed'] == selected_class]
-    
-# Dropdown to select athlete within the selected class
-Athlete_names = Athlete_class_specific['Sailor being reviewed (Name or Bib number)'].tolist()
-selected_athlete = st.sidebar.radio("Select Athlete", Athlete_names)
-
-# Write something generic above the columns
 st.write("Here you can analyse the performance and potential of various candidates for the Youth 2024 selections.")
+selected_class = st.selectbox("Select Youth Class", Classes)
+data = pd.read_excel('master.xlsx', engine='openpyxl', sheet_name=selected_class)
+st.write("## Class Performance vs Potential")
+height_data = pd.read_excel('master.xlsx', engine='openpyxl', sheet_name="Heights")
 
-st.write("## Overall Class Performance vs Potential")
-
-st.write(f'{selected_athlete}')
-
-create_radar_chart(excel_data,selected_athlete)
-#create_radar_chart_class(excel_data, selected_class)
+create_scatter_chart_class(data)
 
 st.divider()
 
@@ -66,77 +32,35 @@ st.divider()
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Performance")
-    st.write(f"Performance data for {selected_athlete}")
-    # Add content for the Performance column
+    st.header("Potential")
+    st.write("Potential Ranking")
+    # selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
+    # filtered_data = data[selected_columns]
+    # st.dataframe(filtered_data)
+    create_radar_chart_class(data)
 
 with col2:
-    st.header("Potential")
-    st.write(f"Performance data for {selected_athlete}")
-    # Add content for the Potential column
+    st.header("Performance")
+    st.write("Performance Ranking")
+    selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
+    filtered_data = data[selected_columns]
+    st.dataframe(filtered_data)
+    create_bar_chart_class(data)
 
-# You can then add logic to update the content based on the button selected
+st.divider()
+st.header("Athlete Height compared to Class Reccomendations")
+st.markdown("<span style='color:green'>Performance Defining</span>", unsafe_allow_html=True)
+st.markdown("<span style='color:orange'>Performance Foundation</span>", unsafe_allow_html=True)
+st.markdown("<span style='color:red'>Performance Limiting</span>", unsafe_allow_html=True)
 
-for i, class_name in enumerate(Classes):
-    if Athlete_names == class_name:
-        with col1:
-            st.write(f"Performance data for {class_name}")
-        with col2:
-            st.write(f"Potential data for {class_name}")
-        break
+create_height_bar_chart(data, height_data, selected_class)
 
-# file_path = 'CoachSailorReviewFormSelection_Cognito export.xlsx'
-# excel_data = pd.read_excel(file_path, engine='openpyxl')
+st.divider()
 
-# # Title of the app
-# st.title('Youth 2024 Selections')
+st.write(f'## Specific Athlete Deep Dive' )
+selected_athlete = st.selectbox("Select Athlete", data["Name"])
+st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
 
-# #Youth Classes
-# # Classes = ('ILCA 6 Male', 'ILCA 6 Female', 'Nacra 15', '29er Female', '29er Male/Mix', 'IQFoil Female', 'IQFoil Male', 'KiteFoil Female', 'KiteFoil Male', '420 Female', '420 Male/Mixed')
-# # Athletes = excel_data.iloc[:,1]
+# pw: athlete#tree#table
 
-# # Dropdown to select class
-# Classes = excel_data['Class being reviewed'].unique().tolist()
-# selected_class = st.sidebar.selectbox("Select Class", Classes)
-# #Function for getting the name and class of sailors
-# Athlete_class_specific = excel_data[excel_data['Class being reviewed'] == selected_class]
-    
-# # Dropdown to select athlete within the selected class
-# Athlete_names = Athlete_class_specific['Sailor being reviewed (Name or Bib number)'].tolist()
-# selected_athlete = st.sidebar.radio("Select Athlete", Athlete_names)
-
-# # Write something generic above the columns
-# st.write("Here you can analyse the performance and potential of various candidates for the Youth 2024 selections.")
-
-# st.write("## Overall Class Performance vs Potential")
-
-# st.divider()
-
-# # Create two columns with titles "Performance" and "Potential"
-# col1, col2 = st.columns(2)
-
-# with col1:
-#     st.header("Performance")
-#     st.write(f"Performance data for {selected_athlete}")
-#     # Add content for the Performance column
-
-# with col2:
-#     st.header("Potential")
-#     st.write(f"Performance data for {selected_athlete}")
-#     # Add content for the Potential column
-
-# # You can then add logic to update the content based on the button selected
-
-# for i, class_name in enumerate(Classes):
-#     if Athlete_names == class_name:
-#         with col1:
-#             st.write(f"Performance data for {class_name}")
-#         with col2:
-#             st.write(f"Potential data for {class_name}")
-#         break
-
-
-#     #notes from your queen: I think the dropdown should be for 
-#     #selecting the class, and the buttons should be for selecting
-#     #the athletes, so you can show multiple athletes at once and 
-#     #compare them directly
+#Notes: Performance number and Potential 
