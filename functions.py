@@ -223,8 +223,8 @@ def create_height_bar_chart(data,height_data,selected_class):
     # Now you can pass these values to your function or use them as needed
     height_data_dict = {
         "Performance Limiting": performance_limiting,
-        "Performance Foundation": performance_foundation,
-        "Performance Defining": performance_defining
+        "Performance Foundation": performance_foundation
+        #"Performance Defining": performance_defining
     }
     athlete_names = data['Name'].unique()
     actual = data['Height']
@@ -254,7 +254,7 @@ def create_height_bar_chart(data,height_data,selected_class):
 
     # Adding horizontal lines for required heights
     for label, height in height_data_dict.items():
-        color = "red" if label == "Performance Limiting" else "orange" if label == "Performance Foundation" else "green"
+        color = "red" if label == "Performance Limiting" else "green"
         fig.add_shape(
             type="line",
             x0=-0.5,  # Start of the line on the x-axis
@@ -282,7 +282,7 @@ def create_height_bar_chart(data,height_data,selected_class):
         yaxis_title="Heights",  # Swap x and y
         xaxis_title="Athletes",  # Swap x and y
         xaxis=dict(showgrid=True, gridcolor='LightGray'),  # Enable x-axis grid lines
-        yaxis=dict(showgrid=True, gridcolor='LightGray', range=[100,200]),  # Enable y-axis grid lines
+        yaxis=dict(showgrid=True, gridcolor='LightGray', range=[150,200]),  # Enable y-axis grid lines
         #yaxis_autorange='reversed',
         showlegend=True
     )
