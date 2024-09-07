@@ -88,7 +88,7 @@ st.divider()
 
 st.write(f'## Specific Athlete Deep Dive' )
 selected_athlete = st.selectbox("Select Athlete", data["Name"])
-st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
+st.image(f"{selected_athlete}.jpeg")
 
 st.write("Data visuals: Jake Farren-Price")
 
