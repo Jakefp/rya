@@ -36,7 +36,10 @@ Classes = [
     'ILCA 7',
     'ILCA 6 Male',
     'ILCA 6 Female',
-    'IQ Foil Male'
+    'IQFoil Male', 
+    'IQFoil Female',
+    'Kite Male',
+    'Kite Female'
     # Add other classes and sheet names here
 ]
 st.image("bys.png", width=300)
