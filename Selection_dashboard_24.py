@@ -52,6 +52,13 @@ st.write("## Class Performance vs Potential")
 height_data = pd.read_excel('master.xlsx', engine='openpyxl', sheet_name="Heights")
 
 st.image("Performance_Potential.png")
+st.write("Note: Sailors that completed indicator result in a junior class:")
+if selected_class == "ILCA 6 Male":
+    st.write("Toby Wagget, Oscar Bartlett, Ben Anderson, Tate Kump, William Brown, Corneille Leprince, Max Guiguet-Belcher")
+elif selected_class == "IQFoil Male":
+    st.write("Oliver Ebdon, George Ebdon, Finley Christopher-Knight, Milo Shaw, Ned Bentley-Taylor")
+elif selected_class == "IQFoil Female":
+    st.write("Sophie Clark, Evelyn Clark, Rebecca Pilkington")
 
 create_scatter_chart_class(data)
 
