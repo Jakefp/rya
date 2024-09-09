@@ -132,7 +132,7 @@ def create_bar_chart_class(data):
     indicator = data['Indicator Result']
     six_month = data['6 Month Result'] 
 
-    data = data.sort_values(by='Indicator Result', ascending=True)
+    data = data.sort_values(by='Performance Ranking', ascending=True)
 
     fig = go.Figure()
 
