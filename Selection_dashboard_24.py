@@ -73,7 +73,7 @@ with col1:
     selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Potential Ranking')
-    st.dataframe(sorted_data.reset_index(drop=True))
+    st.dataframe(sorted_data,hide_index=True)
     create_radar_chart_class(data)
 
 with col2:
@@ -82,7 +82,7 @@ with col2:
     selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Performance Ranking')
-    st.dataframe(sorted_data.reset_index(drop=True))
+    st.dataframe(sorted_data,hide_index=True)
     create_bar_chart_class(data)
 
 st.divider()
