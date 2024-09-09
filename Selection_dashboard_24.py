@@ -59,7 +59,7 @@ elif selected_class == "IQFoil Male":
     st.write("Oliver Ebdon, George Ebdon, Finley Christopher-Knight, Milo Shaw, Ned Bentley-Taylor")
 elif selected_class == "IQFoil Female":
     st.write("Sophie Clark, Evelyn Clark, Rebecca Pilkington")
-
+### Currently working here!!!!!!!!
 create_scatter_chart_class(data)
 
 st.divider()
@@ -73,7 +73,7 @@ with col1:
     selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Potential Ranking')
-    st.dataframe(sorted_data)
+    st.dataframe(sorted_data.reset_index(drop=True))
     create_radar_chart_class(data)
 
 with col2:
@@ -82,7 +82,7 @@ with col2:
     selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Performance Ranking')
-    st.dataframe(sorted_data)
+    st.dataframe(sorted_data.reset_index(drop=True))
     create_bar_chart_class(data)
 
 st.divider()
@@ -101,10 +101,10 @@ st.divider()
 
 st.write(f'## Specific Athlete Deep Dive' )
 selected_athlete = st.selectbox("Select Athlete", data["Name"])
-#st.image(f"{selected_athlete}.jpeg")
-st.header("Athlete profiles currently being generated")
+st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
+
 st.write("Data visuals: Jake Farren-Price")
 
-# pw: athlete#tree#table
+# pw: LA2028!
 
 #Notes: Performance number and Potential 
