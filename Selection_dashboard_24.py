@@ -101,8 +101,16 @@ st.divider()
 
 st.write(f'## Specific Athlete Deep Dive' )
 selected_athlete = st.selectbox("Select Athlete", data["Name"])
-#st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
 st.header("Athlete profiles currently being generated")
+#st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
+st.image(f"{selected_class}/{selected_athlete}.png")
+st.write("Values and Behaviours Breakdown")
+st.image(f"{selected_class}/{selected_athlete}VB.png")
+st.write("Brilliant Racer Breakdown")
+st.image(f"{selected_class}/{selected_athlete}BR.png")
+
+
+
 st.write("Data visuals: Jake Farren-Price")
 
 # pw: LA2028!
