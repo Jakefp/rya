@@ -100,6 +100,7 @@ create_height_bar_chart(data, height_data, selected_class)
 st.divider()
 
 st.write(f'## Specific Athlete Deep Dive' )
+st.write(f'### Coaches review = blue. Sailor's reflection = red)
 selected_athlete = st.selectbox("Select Athlete", data["Name"])
 st.header("Athlete profiles currently being generated")
 #st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpeg")
