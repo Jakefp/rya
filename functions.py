@@ -128,11 +128,12 @@ def create_radar_chart_class(data):
 ### Bar Chart Performance for Class
 def create_bar_chart_class(data):
 
-    athlete_names = data['Name'].unique()
+    data = data.sort_values(by='Indicator Result', ascending=True)
+
+    athlete_names = data['Name']
     indicator = data['Indicator Result']
     six_month = data['6 Month Result'] 
 
-    data = data.sort_values(by='Performance Ranking', ascending=True)
 
     fig = go.Figure()
 
@@ -166,7 +167,6 @@ def create_bar_chart_class(data):
     )
 
     st.plotly_chart(fig)
-
 
 ### Scatter Performance vs Potential
 def create_scatter_chart_class(data):
