@@ -282,7 +282,7 @@ def create_height_bar_chart(data,height_data,selected_class):
         yaxis_title="Heights",  # Swap x and y
         xaxis_title="Athletes",  # Swap x and y
         xaxis=dict(showgrid=True, gridcolor='LightGray'),  # Enable x-axis grid lines
-        yaxis=dict(showgrid=True, gridcolor='LightGray', range=[150,200]),  # Enable y-axis grid lines
+        yaxis=dict(showgrid=True, gridcolor='LightGray', range=[140,200]),  # Enable y-axis grid lines
         #yaxis_autorange='reversed',
         showlegend=True
     )
