@@ -76,27 +76,27 @@ if selected_class == "420":
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Potential and Performance')
     st.dataframe(sorted_data,hide_index=True)
-else:
+#else:
     # Create two columns with titles "Performance" and "Potential"
-    col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-    with col1:
-        st.header("Potential")
-        st.write("Potential Ranking")
-        selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
-        filtered_data = data[selected_columns]
-        sorted_data = filtered_data.sort_values(by='Potential Ranking')
-        st.dataframe(sorted_data,hide_index=True)
-        create_radar_chart_class(data)
+with col1:
+    #st.header("Potential")
+    #st.write("Potential Ranking")
+    #selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
+    #filtered_data = data[selected_columns]
+    #sorted_data = filtered_data.sort_values(by='Potential Ranking')
+    #st.dataframe(sorted_data,hide_index=True)
+    create_radar_chart_class(data)
 
-    with col2:
-        st.header("Performance")
-        st.write("Performance Ranking")
-        selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
-        filtered_data = data[selected_columns]
-        sorted_data = filtered_data.sort_values(by='Performance Ranking')
-        st.dataframe(sorted_data,hide_index=True)
-        create_bar_chart_class(data)
+with col2:
+    #st.header("Performance")
+    #st.write("Performance Ranking")
+    #selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
+    #filtered_data = data[selected_columns]
+    # sorted_data = filtered_data.sort_values(by='Performance Ranking')
+    #st.dataframe(sorted_data,hide_index=True)
+    create_bar_chart_class(data)
 
 st.divider()
 st.header("Athlete Height compared to Class Reccomendations")
