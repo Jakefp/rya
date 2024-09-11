@@ -71,7 +71,7 @@ create_scatter_chart_class(data)
 
 st.divider()
 if selected_class == "420":
-    st.write("Potential and Performance Ranking")
+    st.header("Potential and Performance Ranking")
     selected_columns = ['Name','Helm/Crew', 'Potential Ranking', 'Performance Ranking', 'Potential and Performance']
     filtered_data = data[selected_columns]
     sorted_data = filtered_data.sort_values(by='Potential and Performance')
