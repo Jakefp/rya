@@ -3,6 +3,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import numpy
 import random
+import pandas as pd
 
 ### First Character
 
@@ -168,7 +169,7 @@ def create_bar_chart_class(data):
 
     st.plotly_chart(fig)
 
-### Scatter Performance vs Potential
+# ### Scatter Performance vs Potential
 def create_scatter_chart_class(data):
 
     athlete_names = data['Name'].unique()
@@ -210,10 +211,68 @@ def create_scatter_chart_class(data):
 
     st.plotly_chart(fig)
 
-### Bar chart for heights and predicted height
-def create_height_bar_chart(data,height_data,selected_class):
+def create_scatter_chart_class_double_hander(data):
 
-    selected_row = height_data.loc[height_data['Class'] == selected_class]
+     # Define a list of colors you want to use (hex codes or color names)
+    color_palette = [
+        '#1f77b4',  # Blue
+        '#ff7f0e',  # Orange
+        '#2ca02c',  # Green
+        '#d62728',  # Red
+        '#9467bd',  # Purple
+        '#8c564b',  # Brown
+        '#e377c2',  # Pink
+        '#7f7f7f',  # Gray
+        '#bcbd22',  # Yellow
+        '#17becf',   # Teal
+        '#3b2f2f', #Very dark
+        '#4b5320', #sort of green
+        '#800020', #Dark red
+
+    ]
+
+    data = data.sort_values(by='Boat')
+    # Get the unique boat numbers
+    boats = data['Boat'].unique()
+
+    # Assign colors to each boat by cycling through the provided color palette
+    boat_colors = {boat: color_palette[i % len(color_palette)] for i, boat in enumerate(boats)}
+
+    fig = go.Figure()
+
+    # Add each athlete's data as a separate trace, assigning color based on the boat
+    for i, athlete in enumerate(data['Name'].unique()):
+        athlete_data = data[data['Name'] == athlete]
+        boat_number = athlete_data['Boat'].values[0]  # Get the boat number for the athlete
+        
+        fig.add_trace(go.Scatter(
+            x=athlete_data['Performance Score'],
+            y=athlete_data['Potential Score'],
+            mode='markers',
+            text=athlete,  # Show athlete's name on hover
+            marker=dict(
+                size=20,
+                color=boat_colors[boat_number],  # Assign color from predefined palette
+                opacity=0.8
+            ),
+            name=athlete  # This will add the athlete's name to the legend
+        ))
+
+    fig.update_layout(
+        xaxis_title="Performance",
+        yaxis_title="Potential",
+        xaxis=dict(showgrid=True, gridcolor='LightGray', autorange='reversed'),
+        yaxis=dict(showgrid=True, gridcolor='LightGray'),
+        showlegend=True,
+        autosize=True
+    )
+
+    st.plotly_chart(fig)
+
+### Bar chart for heights and predicted height
+def create_height_bar_chart(data,height_data,selected_class,Helm_or_Crew):
+
+    selected_row = height_data.loc[height_data['Class'] == selected_class + f" {Helm_or_Crew}"]
 
     # Extract the relevant height values
     performance_limiting = selected_row['Performance Limiting'].values[0]
