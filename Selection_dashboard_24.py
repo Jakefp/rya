@@ -4,6 +4,7 @@ import openpyxl
 import plotly.graph_objects as go
 from functions import *
 import hmac
+import os
 
 def check_password():
     """Returns `True` if the user had the correct password."""
@@ -33,6 +34,8 @@ if not check_password():
 st.set_page_config(layout="wide")
 ####################################
 Classes = [
+    '29er',
+    'Nacra',
     '420',
     'ILCA 7',
     'ILCA 6 Male',
@@ -67,35 +70,28 @@ elif selected_class == "420":
     st.write("Male: Helm: Joseph Jones. Crew: Charlie Howard, George Self, Naythan Twiggs")
     st.write("Female: Helm: Laragh Epstein, Ella Martin, Nia Mecklenburgh, Jessica Skelding. Crew: Hennie Burlton.")
 ### Currently working here!!!!!!!!
-create_scatter_chart_class(data)
+if selected_class in ("420", "29er", "Nacra"):
+    create_scatter_chart_class_double_hander(data)
+else:
+    create_scatter_chart_class(data)
+
 
 st.divider()
-if selected_class == "420":
-    st.header("Potential and Performance Ranking")
-    selected_columns = ['Name','Helm/Crew', 'Potential Ranking', 'Performance Ranking', 'Potential and Performance']
-    filtered_data = data[selected_columns]
-    sorted_data = filtered_data.sort_values(by='Potential and Performance')
-    st.dataframe(sorted_data,hide_index=True)
-#else:
+st.header("Potential and Performance Ranking")
+if selected_class in ("420", "29er", "Nacra"):
+    selected_columns = ['Name', 'Helm/Crew', 'Potential and Performance', 'Potential Ranking', 'Performance Ranking','Years Left U19', 'Years Left U21']
+else:
+    selected_columns = ['Name', 'Potential and Performance', 'Potential Ranking', 'Performance Ranking','Years Left U19', 'Years Left U21']
+filtered_data = data[selected_columns]
+sorted_data = filtered_data.sort_values(by='Potential and Performance')
+st.dataframe(sorted_data,hide_index=True)
     # Create two columns with titles "Performance" and "Potential"
 col1, col2 = st.columns(2)
 
 with col1:
-    #st.header("Potential")
-    #st.write("Potential Ranking")
-    #selected_columns = ['Name', 'Potential Ranking', 'Potential Score']
-    #filtered_data = data[selected_columns]
-    #sorted_data = filtered_data.sort_values(by='Potential Ranking')
-    #st.dataframe(sorted_data,hide_index=True)
     create_radar_chart_class(data)
 
 with col2:
-    #st.header("Performance")
-    #st.write("Performance Ranking")
-    #selected_columns = ['Name', 'Performance Ranking', 'Performance Score']
-    #filtered_data = data[selected_columns]
-    # sorted_data = filtered_data.sort_values(by='Performance Ranking')
-    #st.dataframe(sorted_data,hide_index=True)
     create_bar_chart_class(data)
 
 st.divider()
@@ -108,30 +104,37 @@ st.write("Above green line = Performance Defining")
 #st.markdown("<span style='color:orange'>Performance Foundation</span>", unsafe_allow_html=True)
 #st.markdown("<span style='color:red'>Performance Limiting</span>", unsafe_allow_html=True)
 
-if selected_class == "420":
+if selected_class in ("420", "29er", "Nacra"):
     # Filter data where the "Helm/Crew" column has the value "Helm"
     data_helm = data[data['Helm/Crew'] == "Helm"]
-
     # Display the Helm heights
-    st.header("Helm Heights:")
-    create_height_bar_chart(data_helm, height_data, "470 mixed helm")
+    st.subheader("Helm Heights:")
+    create_height_bar_chart(data_helm, height_data, selected_class, "Helm")
 
     # Filter data where the "Helm/Crew" column has the value "Crew" (if needed for crew heights)
     data_crew = data[data['Helm/Crew'] == "Crew"]
 
     # Display the Crew heights
-    st.header("Crew Heights:")
-    create_height_bar_chart(data_crew, height_data, "470 mixed crew")
+    st.subheader("Crew Heights:")
+    create_height_bar_chart(data_crew, height_data, selected_class, "Crew")
 else:
     # For other classes, display the data as it is
-    create_height_bar_chart(data, height_data, selected_class)
+    create_height_bar_chart(data, height_data, selected_class, "Helm")
 
 st.divider()
 
 st.write(f'## Specific Athlete Deep Dive' )
 selected_athlete = st.selectbox("Select Athlete", data["Name"])
 # st.header("Athlete profiles currently being generated")
-st.image(f"athlete_profiles/{selected_class}/{selected_athlete}.jpg")
+
+image_path = (f"athlete_profiles/{selected_class}/{selected_athlete}.jpg")
+
+if os.path.exists(image_path):
+    st.image(image_path)
+else:
+    st.subheader("No sailor pdf available for this athlete.")
+
+
 # st.image(f"{selected_class}/{selected_athlete}.png")
 # st.write("Values and Behaviours Breakdown")
 # st.image(f"{selected_class}/{selected_athlete}VB.png")
